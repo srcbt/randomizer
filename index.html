@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Google Random Picker</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="https://www.google.com/favicon.ico">
+  <style>
+    body {
+      font-family: Roboto, Arial, sans-serif;
+      background-color: #f2f2f2;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .card {
+      background: white;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      text-align: center;
+      width: 90%;
+      max-width: 400px;
+    }
+
+    h1 {
+      font-size: 24px;
+      color: #202124;
+    }
+
+    #result {
+      font-size: 64px;
+      margin: 30px 0;
+      color: #1a73e8;
+      font-weight: bold;
+      opacity: 0;
+      transform: scale(0);
+      transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+    }
+
+    button {
+      background-color: #1a73e8;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    button:hover {
+      background-color: #1669c1;
+    }
+
+    footer {
+      margin-top: 30px;
+      font-size: 12px;
+      color: #777;
+    }
+
+    /* Приховане поле для введення */
+    #hiddenInput {
+      position: absolute;
+      left: -9999px;
+      top: -9999px;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* Стиль для активного поля */
+    #hiddenInput.active {
+      left: 0;
+      top: 0;
+      opacity: 1;
+      pointer-events: auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Random Number Picker</h1>
+    <div id="result">—</div>
+    <button onclick="generate()">Згенерувати</button>
+    <footer>Google Tools © 2025</footer>
+  </div>
+
+  <!-- Секретне поле для введення числа -->
+  <input type="number" id="hiddenInput" placeholder="Введіть число для підкрутки" />
+
+  <script>
+    // === Налаштування ===
+    let riggedNumber = 528; // Початкове число
+    const hiddenInput = document.getElementById('hiddenInput');
+
+    function generate() {
+      const resultElement = document.getElementById('result');
+
+      // Анімація: спочатку ховаємо результат
+      resultElement.style.opacity = 0;
+      resultElement.style.transform = 'scale(0)';
+
+      // Пауза перед показом числа
+      setTimeout(() => {
+        // Встановлюємо нове число
+        resultElement.textContent = riggedNumber;
+        
+        // Анімація: показуємо результат з ефектом "появи"
+        resultElement.style.opacity = 1;
+        resultElement.style.transform = 'scale(1)';
+      }, 500); // Затримка для кращої анімації
+    }
+
+    // Відкриття поля за допомогою комбінації клавіш
+    document.addEventListener('keydown', (e) => {
+      // Комбінація для відкриття поля
+      if (e.ctrlKey && e.key === 'i') {
+        hiddenInput.classList.toggle('active');
+        hiddenInput.focus();
+      }
+    });
+
+    // Оновлення числа після введення в приховане поле
+    hiddenInput.addEventListener('input', (e) => {
+      riggedNumber = Number(e.target.value);
+    });
+  </script>
+</body>
+</html>
